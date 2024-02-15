@@ -18,10 +18,10 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final ModelMapper modelMapper;
 
-    public Page<QuestionDto> getList(int page) {
+    public Page<QuestionDto> getList(int page, String kw) {
         Sort.Order sort = Sort.Order.desc("createDate");
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sort));
-        return this.questionRepository.findAll(pageable)
+        return this.questionRepository.findAllByKeyword(kw, pageable)
                 .map(question -> modelMapper.map(question, QuestionDto.class));
     }
 
