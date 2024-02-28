@@ -10,8 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Controller
 public class AnswerController {
@@ -24,9 +22,7 @@ public class AnswerController {
                                @Valid AnswerDto answerDto, BindingResult bindingResult) {
         QuestionDto questionDto = this.questionService.getQuestionDto(id);
         if (bindingResult.hasErrors()) {
-//            List<AnswerDto> answerDtoList = this.answerService.getAnswerDtoList(id);
             model.addAttribute("questionDto", questionDto);
-//            model.addAttribute("answerDtoList", answerDtoList);
             return "question_detail";
         }
 

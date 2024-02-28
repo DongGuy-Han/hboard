@@ -14,6 +14,11 @@ public class HboardApplication {
     }
 
 
+    /**
+    * ModelMapper를 이용한 변환을 Dto클래스에 메서드를 생성하여 대신하였다.
+    * */
+
+    /*
     @Bean
     ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -21,6 +26,6 @@ public class HboardApplication {
                 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
                 .setFieldMatchingEnabled(true);
         return modelMapper;
-    }
+    }*/
 
 }

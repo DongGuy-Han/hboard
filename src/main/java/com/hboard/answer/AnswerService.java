@@ -3,7 +3,6 @@ package com.hboard.answer;
 import com.hboard.question.Question;
 import com.hboard.question.QuestionDto;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,14 +13,13 @@ import java.util.List;
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
-    private final ModelMapper modelMapper;
 
     public void create(AnswerDto answerDto, QuestionDto questionDto) {
-        Question question = modelMapper.map(questionDto, Question.class);
+        Question question = QuestionDto.toEntity(questionDto);
         answerDto.setQuestion(question);
         answerDto.setCreateDate(LocalDateTime.now());
 
-        Answer answer = modelMapper.map(answerDto, Answer.class);
+        Answer answer = AnswerDto.toEntity(answerDto);
 
         this.answerRepository.save(answer);
     }
@@ -30,7 +28,7 @@ public class AnswerService {
         List<Answer> answerList = this.answerRepository.findByQuestionId(id);
 
         return answerList.stream()
-                .map((answer -> modelMapper.map(answer, AnswerDto.class)))
+                .map((answer -> AnswerDto.toDto(answer)))
                 .toList();
     }
 }

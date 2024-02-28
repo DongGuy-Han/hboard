@@ -4,12 +4,14 @@ import com.hboard.answer.Answer;
 import com.hboard.answer.AnswerDto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@AllArgsConstructor
 @Getter
 @Setter
 public class QuestionDto {
@@ -24,5 +26,29 @@ public class QuestionDto {
 
     private LocalDateTime createDate;
 
-    private List<AnswerDto> answerList;
+    private List<Answer> answerList;
+
+    public static Question toEntity(QuestionDto questionDto) {
+        Question question = new Question(
+                questionDto.getId(),
+                questionDto.getTitle(),
+                questionDto.getContent(),
+                questionDto.getCreateDate(),
+                questionDto.getAnswerList()
+        );
+
+        return question;
+    }
+
+    public static QuestionDto toDto(Question question) {
+        QuestionDto questionDto = new QuestionDto(
+                question.getId(),
+                question.getTitle(),
+                question.getContent(),
+                question.getCreateDate(),
+                question.getAnswerList()
+        );
+
+        return questionDto;
+    }
 }

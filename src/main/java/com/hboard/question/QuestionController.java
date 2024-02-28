@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Controller
 public class QuestionController {
@@ -29,6 +27,7 @@ public class QuestionController {
 
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
+
         return "question_list";
     }
 
