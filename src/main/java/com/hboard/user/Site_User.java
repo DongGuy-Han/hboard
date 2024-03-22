@@ -1,9 +1,13 @@
 package com.hboard.user;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class SiteUser {
+public class Site_User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
