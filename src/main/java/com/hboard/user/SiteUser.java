@@ -2,12 +2,14 @@ package com.hboard.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Entity
-public class Site_User {
+public class SiteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

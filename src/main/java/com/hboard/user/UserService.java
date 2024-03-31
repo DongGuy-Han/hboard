@@ -1,6 +1,7 @@
 package com.hboard.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Site_User create(String username, String email, String password) {
+    public SiteUser create(String username, String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        Site_User user = new Site_User(null, username, email, encodedPassword, UserRole.USER.getValue());
+        SiteUser user = new SiteUser(null, username, encodedPassword, email, UserRole.USER.getValue());
         this.userRepository.save(user);
         return user;
+    }
+
+    public SiteUser getUser(String username) {
+        SiteUser siteUser = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("siteuser not found"));
+        return siteUser;
     }
 }

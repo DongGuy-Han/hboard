@@ -1,6 +1,7 @@
 package com.hboard.question;
 
 import com.hboard.answer.Answer;
+import com.hboard.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +28,10 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    @ManyToOne
+    private SiteUser author;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }

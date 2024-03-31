@@ -1,12 +1,14 @@
 package com.hboard.answer;
 
 import com.hboard.question.Question;
+import com.hboard.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,4 +25,10 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }

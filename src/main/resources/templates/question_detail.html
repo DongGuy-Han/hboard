@@ -7,7 +7,47 @@
             <dic class="card-text" style="white-space: pre-line;" th:text="${questionDto.content}"></dic>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${questionDto.author != null}"
+                              th:text="${questionDto.author.username}"></span>
+                    </div>
                     <div th:text="${#temporals.format(questionDto.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div style="display: inline-block" th:if="${not #lists.contains(questionDto.voter, questionDto.author)}">
+                    <form th:action="@{/questions/vote}" method="post">
+                        <input type="hidden" name="id" th:value="${questionDto.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천하시겠습니까?')">
+                            추천
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(questionDto.voter)}"></span>
+                        </button>
+                    </form>
+                </div>
+                <div style="display: inline-block" th:if="${#lists.contains(questionDto.voter, questionDto.author)}">
+                    <form th:action="@{/questions/unvote}" method="post">
+                        <input type="hidden" name="id" th:value="${questionDto.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천을 취소하시겠습니까?')">
+                            추천
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(questionDto.voter)}"></span>
+                        </button>
+                    </form>
+                </div>
+                <div style="display: inline-block">
+                    <form th:action="@{/questions/modify}" method="get"
+                          sec:authorize="isAuthenticated()"
+                          th:if="${questionDto.author != null and #authentication.getPrincipal().getUsername() == questionDto.author.username}">
+                        <input type="hidden" name="id" th:value="${questionDto.id}">
+                        <input type="submit" value="수정" class="btn btn-sm btn-outline-secondary">
+                    </form>
+                </div>
+                <div style="display: inline-block">
+                <form th:action="@{/questions/delete}" method="post"
+                      sec:authorize="isAuthenticated()"
+                      th:if="${questionDto.author != null and #authentication.getPrincipal().getUsername() == questionDto.author.username}">
+                    <input type="hidden" name="id" th:value="${questionDto.id}">
+                    <input type="submit" value="삭제" class="btn btn-sm btn-outline-secondary" onclick="return confirm('정말로 삭제하시겠습니까?')">
+                </form>
                 </div>
             </div>
         </div>
@@ -20,7 +60,47 @@
             <div class="card-text" style="white-space: pre-line;" th:text="${answerDto.content}"></div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${answerDto.author != null}"
+                              th:text="${answerDto.author.username}"></span>
+                    </div>
                     <div th:text="${#temporals.format(answerDto.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div style="display: inline-block" th:if="${not #lists.contains(answerDto.voter, answerDto.author)}">
+                    <form th:action="@{/answers/vote}" method="post">
+                        <input type="hidden" name="id" th:value="${answerDto.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천하시겠습니까?')">
+                            추천
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(answerDto.voter)}"></span>
+                        </button>
+                    </form>
+                </div>
+                <div style="display: inline-block" th:if="${#lists.contains(answerDto.voter, answerDto.author)}">
+                    <form th:action="@{/answers/unvote}" method="post">
+                        <input type="hidden" name="id" th:value="${answerDto.id}">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천을 취소하시겠습니까?')">
+                            추천
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(answerDto.voter)}"></span>
+                        </button>
+                    </form>
+                </div>
+                <div style="display: inline-block">
+                    <form th:action="@{/answers/modify}" method="get"
+                          sec:authorize="isAuthenticated()"
+                          th:if="${answerDto.author != null and #authentication.getPrincipal().getUsername() == answerDto.author.username}">
+                        <input type="hidden" name="id" th:value="${answerDto.id}">
+                        <input type="submit" value="수정" class="btn btn-sm btn-outline-secondary">
+                    </form>
+                </div>
+                <div style="display: inline-block">
+                    <form th:action="@{/answers/delete}" method="post"
+                          sec:authorize="isAuthenticated()"
+                          th:if="${answerDto.author != null and #authentication.getPrincipal().getUsername() == answerDto.author.username}">
+                        <input type="hidden" name="id" th:value="${answerDto.id}">
+                        <input type="submit" value="삭제" class="btn btn-sm btn-outline-secondary" onclick="return confirm('정말로 삭제하시겠습니까?')">
+                    </form>
                 </div>
             </div>
         </div>
@@ -29,7 +109,10 @@
     <!-- 답변 작성 -->
     <form class="my-3" th:action="@{|/answers/create/${questionDto.id}|}" th:object="${answerDto}" method="post">
         <div th:replace="~{form_erros :: formErrors}"></div>
-        <textarea th:field="*{content}" rows="10" class="form-control"></textarea>
+        <textarea sec:authorize="isAnonymous()" disabled
+                  th:field="*{content}" rows="10" class="form-control"></textarea>
+        <textarea sec:authorize="isAuthenticated()"
+                  th:field="*{content}" rows="10" class="form-control"></textarea>
         <input type="submit" value="답변 등록" class="btn btn-primary my-2">
     </form>
 </div>

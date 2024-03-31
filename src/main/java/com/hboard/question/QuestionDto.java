@@ -1,7 +1,7 @@
 package com.hboard.question;
 
 import com.hboard.answer.Answer;
-import com.hboard.answer.AnswerDto;
+import com.hboard.user.SiteUser;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -28,13 +29,19 @@ public class QuestionDto {
 
     private List<Answer> answerList;
 
+    private SiteUser author;
+
+    Set<SiteUser> voter;
+
     public static Question toEntity(QuestionDto questionDto) {
         Question question = new Question(
                 questionDto.getId(),
                 questionDto.getTitle(),
                 questionDto.getContent(),
                 questionDto.getCreateDate(),
-                questionDto.getAnswerList()
+                questionDto.getAnswerList(),
+                questionDto.getAuthor(),
+                questionDto.getVoter()
         );
 
         return question;
@@ -46,7 +53,9 @@ public class QuestionDto {
                 question.getTitle(),
                 question.getContent(),
                 question.getCreateDate(),
-                question.getAnswerList()
+                question.getAnswerList(),
+                question.getAuthor(),
+                question.getVoter()
         );
 
         return questionDto;

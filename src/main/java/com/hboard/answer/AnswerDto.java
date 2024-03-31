@@ -1,12 +1,14 @@
 package com.hboard.answer;
 
 import com.hboard.question.Question;
+import com.hboard.user.SiteUser;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @AllArgsConstructor
 @Setter
@@ -22,12 +24,18 @@ public class AnswerDto {
 
     private Question question;
 
+    private SiteUser author;
+
+    Set<SiteUser> voter;
+
     public static Answer toEntity(AnswerDto answerDto) {
         Answer answer = new Answer(
                 answerDto.getId(),
                 answerDto.getContent(),
                 answerDto.getCreateDate(),
-                answerDto.getQuestion()
+                answerDto.getQuestion(),
+                answerDto.getAuthor(),
+                answerDto.getVoter()
         );
 
         return answer;
@@ -38,7 +46,9 @@ public class AnswerDto {
                 answer.getId(),
                 answer.getContent(),
                 answer.getCreateDate(),
-                answer.getQuestion()
+                answer.getQuestion(),
+                answer.getAuthor(),
+                answer.getVoter()
         );
 
         return answerDto;
