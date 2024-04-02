@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <div style="display: inline-block" th:if="${not #lists.contains(questionDto.voter, questionDto.author)}">
+                <div style="display: inline-block" th:if="${not #lists.contains(questionDto.voter, #authentication.principal.user)}">
                     <form th:action="@{/questions/vote}" method="post">
                         <input type="hidden" name="id" th:value="${questionDto.id}">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천하시겠습니까?')">
@@ -24,7 +24,7 @@
                         </button>
                     </form>
                 </div>
-                <div style="display: inline-block" th:if="${#lists.contains(questionDto.voter, questionDto.author)}">
+                <div style="display: inline-block" th:if="${#lists.contains(questionDto.voter, #authentication.principal.user)}">
                     <form th:action="@{/questions/unvote}" method="post">
                         <input type="hidden" name="id" th:value="${questionDto.id}">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천을 취소하시겠습니까?')">
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <div style="display: inline-block" th:if="${not #lists.contains(answerDto.voter, answerDto.author)}">
+                <div style="display: inline-block" th:if="${not #lists.contains(answerDto.voter, #authentication.principal.user)}">
                     <form th:action="@{/answers/vote}" method="post">
                         <input type="hidden" name="id" th:value="${answerDto.id}">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천하시겠습니까?')">
@@ -77,7 +77,7 @@
                         </button>
                     </form>
                 </div>
-                <div style="display: inline-block" th:if="${#lists.contains(answerDto.voter, answerDto.author)}">
+                <div style="display: inline-block" th:if="${#lists.contains(answerDto.voter, #authentication.principal.user)}">
                     <form th:action="@{/answers/unvote}" method="post">
                         <input type="hidden" name="id" th:value="${answerDto.id}">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('추천을 취소하시겠습니까?')">
